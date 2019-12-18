@@ -8,7 +8,9 @@ def mergeSortDebug(nums, start, stop, depth):
         print('----Starting Merge Sort')
         print(f'----nums: {nums}')
 
-    print(f'\n' + (INDENT * depth) + '----Current range in nums: ' + ' | '.join([[' ', str(e)][i in range(start, stop)] for i, e in enumerate(nums)]))
+    print(f'\n' + (INDENT * depth) + '----Current range in nums: ' +
+            ' | '.join([[' ', str(e)][i in range(start, stop)] 
+            for i, e in enumerate(nums)]))
     print((INDENT * depth) + f'----Start and Stop: [{start}, {stop})')
     middle = (start + stop) // 2
 
@@ -39,8 +41,13 @@ def mergeSortDebug(nums, start, stop, depth):
 
         print((INDENT * depth) + '----Merging:')
         for _ in range(start, stop):
-            print(' | '.join([{'00':' ', '01':'s', '10':'x', '11':'B'}[str(int(i == firstHalfIndex or i == secondHalfIndex)) + str(int(i == start or i == stop - 1))] for i, e in enumerate(nums)]))
-            print(' | '.join([[' ', str(e)][i in range(start, stop)] for i, e in enumerate(nums)]))
+            print(' | '.join(
+                    [{'00': ' ', '01': 's', '10': 'x', '11': 'B'}[
+                    str(int(i == firstHalfIndex or i == secondHalfIndex))
+                    + str(int(i == start or i == stop - 1))]
+                    for i, e in enumerate(nums)]))
+            print(' | '.join([[' ', str(e)][i in range(start, stop)]
+                              for i, e in enumerate(nums)]))
 
             if nums[secondHalfIndex] < nums[firstHalfIndex]:
                 nums.insert(firstHalfIndex, nums.pop(secondHalfIndex))
@@ -52,8 +59,12 @@ def mergeSortDebug(nums, start, stop, depth):
             # First partition runs out or second partition runs out
             if firstHalfIndex == secondHalfIndex \
                     or secondHalfIndex == stop:
-                print(' | '.join([{'00':' ', '01':'s', '10':'x', '11':'B'}[str(int(i == firstHalfIndex or i == secondHalfIndex)) + str(int(i == start or i == stop - 1))] for i, e in enumerate(nums)]))
-                print(' | '.join([[' ', str(e)][i in range(start, stop)] for i, e in enumerate(nums)]))
+                print(' | '.join([{'00': ' ', '01': 's', '10': 'x', '11': 'B'}[
+                        str(int(i == firstHalfIndex or i == secondHalfIndex))
+                        + str(int(i == start or i == stop - 1))]
+                        for i, e in enumerate(nums)]))
+                print(' | '.join([[' ', str(e)][i in range(start, stop)]
+                                  for i, e in enumerate(nums)]))
                 print((INDENT * depth) + '----End condition reached for merge')
                 break
 
