@@ -1,6 +1,10 @@
+import os
 import random
+import time
+
 
 INDENT = '----'
+DELAY = 0
 
 
 def mergeSortDebug(nums, start, stop, depth):
@@ -9,7 +13,7 @@ def mergeSortDebug(nums, start, stop, depth):
         print(f'----nums: {nums}')
 
     print(f'\n' + (INDENT * depth) + '----Current range in nums: ' +
-            ' | '.join([[' ', str(e)][i in range(start, stop)] 
+            ' | '.join([[' ', str(e)][i in range(start, stop)]
             for i, e in enumerate(nums)]))
     print((INDENT * depth) + f'----Start and Stop: [{start}, {stop})')
     middle = (start + stop) // 2
@@ -72,19 +76,30 @@ def mergeSortDebug(nums, start, stop, depth):
     print()
 
 
-def mergeSort(nums, start, stop):
+def mergeSort(nums, start, stop, depth):
     middle = (start + stop) // 2
 
     if start == stop - 1:
+        # One index being compared to itself, return after showing result
+        histogramize(nums, start)
+        time.sleep(DELAY)
+        cls()
+
         return
     elif start == stop - 2:
-        # Put two elements in order
+        # Two adjacent elements being compared
         if nums[start] > nums[stop - 1]:
             nums[start], nums[stop - 1] = nums[stop - 1], nums[start]
+
+            # Show result
+            histogramize(nums, start, stop - 1)
+            time.sleep(DELAY)
+            cls()
     else:
-        # Merge two halves
-        mergeSort(nums, start, middle)
-        mergeSort(nums, middle, stop)
+        # More than two adjacent elements, must 
+        # sort both halves and merge
+        mergeSort(nums, start, middle, depth + 1)
+        mergeSort(nums, middle, stop, depth + 1)
 
         # Index of element in first and second halves to compare while merging
         firstHalfIndex = start
@@ -101,15 +116,42 @@ def mergeSort(nums, start, stop):
             else:
                 firstHalfIndex += 1
 
+            # Show result
+            histogramize(nums, firstHalfIndex, secondHalfIndex)
+            time.sleep(DELAY)
+            if depth != 1 or (firstHalfIndex != secondHalfIndex and secondHalfIndex != stop):
+                # Want to leave histogram when program terminates, so
+                # check for sorted condition
+                cls()
 
-def histogramize(lst):
+
+def cls():
+    os.system('cls' or 'clear')
+
+
+def histogramize(lst, i1=None, i2=None):
+    """Render a histogram with bins i1 and i2 highlighted."""
+
+    CHAR = '░'
+    L_CHAR = '▓'
+    R_CHAR = '▓'
+
     # Keep lst short for now
-    assert len(lst) <= 30 and max(lst) < 30
+    # assert len(lst) <= 30 and max(lst) <= 30
 
     for lineNum in range(max(lst), 0, -1):
         for charNum in range(len(lst)):
+            # Set character to be printed based on index
+            if charNum == i1:
+                char = L_CHAR
+            elif charNum == i2:
+                char = R_CHAR
+            else:
+                char = CHAR
+
+            # Print appropriate character
             if lst[charNum] >= lineNum:
-                print('*', end=' ')
+                print(char, end=' ')
             else:
                 print(' ', end=' ')
 
@@ -120,17 +162,14 @@ def histogramize(lst):
 def main():
     # nums = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
     # nums = [2, 6, 7, 9, 11, 0, 1, 3, 4, 10, 12]
-    nums = list(range(1, 11))
+    nums = list(range(1, 50))
 
-    n = 100000
-    print(f'Merge Sorting {n} times...', end='')
+    random.shuffle(nums)
 
-    for i in range(n):
-        random.shuffle(nums)
-        mergeSort(nums, 0, len(nums))
-        assert nums == sorted(nums)
-
-    print(' done! No failed assertions.')
+    print(f'Original `nums`: {nums}')
+    histogramize(nums)
+    input('Press enter to continue\n>>> ')
+    mergeSort(nums, 0, len(nums), 1)
 
 
 if __name__ == '__main__':
