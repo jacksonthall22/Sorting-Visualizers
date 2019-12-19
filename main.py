@@ -102,6 +102,21 @@ def mergeSort(nums, start, stop):
                 firstHalfIndex += 1
 
 
+def histogramize(lst):
+    # Keep lst short for now
+    assert len(lst) <= 30 and max(lst) < 30
+
+    for lineNum in range(max(lst), 0, -1):
+        for charNum in range(len(lst)):
+            if lst[charNum] >= lineNum:
+                print('*', end=' ')
+            else:
+                print(' ', end=' ')
+
+        print()
+
+
+
 def main():
     # nums = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]
     # nums = [2, 6, 7, 9, 11, 0, 1, 3, 4, 10, 12]
