@@ -4,3 +4,5 @@ This program displays a randomized list of values as a histogram and shows how i
 
 ### Algorithms Implemented
  - Merge Sort
+
+<sub><sup>Copyright © 2019 Jackson Hall. All rights reserved.</sup></sub>
