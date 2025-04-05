@@ -4,7 +4,7 @@ import time
 
 
 INDENT = '----'
-DELAY = 0
+DELAY = 0.1
 
 
 def mergeSortDebug(nums, start, stop, depth):
@@ -119,7 +119,8 @@ def mergeSort(nums, start, stop, depth):
             # Show result
             histogramize(nums, firstHalfIndex, secondHalfIndex)
             time.sleep(DELAY)
-            if depth != 1 or (firstHalfIndex != secondHalfIndex and secondHalfIndex != stop):
+            if depth != 1 or (firstHalfIndex != secondHalfIndex 
+                    and secondHalfIndex != stop):
                 # Want to leave histogram when program terminates, so
                 # check for sorted condition
                 cls()
